@@ -8,7 +8,7 @@ void bootstrap(App app) {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
-    // The following lines are the same as previously explained in "Handling uncaught errors"
+
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
     runApp(app);
