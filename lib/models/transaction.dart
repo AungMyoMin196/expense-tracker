@@ -1,4 +1,6 @@
 import 'package:expense_tracker/define/enums/category_enum.dart';
+import 'package:expense_tracker/models/category_info.dart';
+import 'package:expense_tracker/theme/category_color.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -20,93 +22,42 @@ class Transaction {
       this.note,
       required this.createdAt});
 
-  Widget getCategoryIcon() {
+  CategoryInfo getCategoryInfo() {
     switch (categoryId) {
       case CategoryEnum.food:
-        return const CircleAvatar(
-          backgroundColor: Colors.amber,
-          child: Icon(
-            Icons.lunch_dining,
-            color: Colors.white,
-          ),
-        );
+        return CategoryInfo(
+            name: 'Food', icon: Icons.lunch_dining, color: CategoryColor.food);
       case CategoryEnum.shopping:
-        return const CircleAvatar(
-          backgroundColor: Colors.purpleAccent,
-          child: Icon(
-            Icons.shopping_bag,
-            color: Colors.white,
-          ),
-        );
+        return CategoryInfo(
+            name: 'Shopping',
+            icon: Icons.shopping_bag,
+            color: CategoryColor.shopping);
       case CategoryEnum.transportation:
-        return const CircleAvatar(
-          backgroundColor: Colors.lightBlueAccent,
-          child: Icon(
-            Icons.commute,
-            color: Colors.white,
-          ),
-        );
+        return CategoryInfo(
+            name: 'Transportation',
+            icon: Icons.commute,
+            color: CategoryColor.transportation);
       case CategoryEnum.health:
-        return const CircleAvatar(
-          backgroundColor: Colors.pink,
-          child: Icon(
-            Icons.health_and_safety,
-            color: Colors.white,
-          ),
-        );
+        return CategoryInfo(
+            name: 'Health',
+            icon: Icons.health_and_safety,
+            color: CategoryColor.health);
       case CategoryEnum.beauty:
-        return const CircleAvatar(
-          backgroundColor: Colors.green,
-          child: Icon(
-            Icons.spa,
-            color: Colors.white,
-          ),
-        );
+        return CategoryInfo(
+            name: 'Beauty', icon: Icons.spa, color: CategoryColor.beauty);
       case CategoryEnum.entertainment:
-        return const CircleAvatar(
-          backgroundColor: Colors.orange,
-          child: Icon(
-            Icons.sentiment_very_satisfied,
-            color: Colors.white,
-          ),
-        );
+        return CategoryInfo(
+            name: 'Entertainment',
+            icon: Icons.sentiment_very_satisfied,
+            color: CategoryColor.entertainment);
       case CategoryEnum.travel:
-        return const CircleAvatar(
-          backgroundColor: Colors.indigoAccent,
-          child: Icon(
-            Icons.flight_takeoff,
-            color: Colors.white,
-          ),
-        );
+        return CategoryInfo(
+            name: 'Travel',
+            icon: Icons.flight_takeoff,
+            color: CategoryColor.travel);
       default:
-        return const CircleAvatar(
-          backgroundColor: Colors.grey,
-          child: Icon(
-            Icons.style,
-            color: Colors.white,
-          ),
-        );
-    }
-  }
-
-  String getCategoryName() {
-    switch (categoryId) {
-      case CategoryEnum.food:
-        return 'Food';
-      case CategoryEnum.shopping:
-        return 'Shopping';
-      case CategoryEnum.transportation:
-        return 'Transportation';
-      case CategoryEnum.health:
-        return 'Health';
-      case CategoryEnum.beauty:
-        return 'Beauty';
-      case CategoryEnum.entertainment:
-        return 'Entertainment';
-      case CategoryEnum.travel:
-        return 'Travel';
-      default:
-        return 'Other';
+        return CategoryInfo(
+            name: 'Others', icon: Icons.style, color: CategoryColor.others);
     }
   }
 
@@ -115,10 +66,26 @@ class Transaction {
   }
 
   String getDisplayAmount() {
-    return isExpense() ? '-\$${amount.toString()}' : '+\$${amount.toString()}';
+    return isExpense()
+        ? '-¥${amount.toStringAsFixed(0)}'
+        : '+¥${amount.toStringAsFixed(0)}';
   }
 
   String getDisplayCreatedAt() {
     return DateFormat.MMMMd().add_Hm().format(DateTime.parse(createdAt));
+  }
+
+  static double getExpenseAmount(List<Transaction> transactions) {
+    return transactions
+        .where((Transaction transaction) => transaction.isExpense())
+        .map((Transaction transaction) => transaction.amount)
+        .reduce((value, element) => value + element);
+  }
+
+  static double getIncomeAmount(List<Transaction> transactions) {
+    return transactions
+        .where((Transaction transaction) => !transaction.isExpense())
+        .map((Transaction transaction) => transaction.amount)
+        .reduce((value, element) => value + element);
   }
 }

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const primaryColor = Color(0xFF00ADB5);
-
-  static const accentColor = Color(0xFF222831);
-
   static const MaterialColor primarySwatch = MaterialColor(
     0xFF00ADB5,
     <int, Color>{
@@ -20,6 +16,10 @@ class AppTheme {
       900: Color(0xFF00838D),
     },
   );
+
+  static const primaryColor = Color(0xFF00ADB5);
+  static const accentColor = Color(0xFF222831);
+  static const lightColor = Color(0xFFEEEEEE);
 
   static ThemeData get light {
     return ThemeData(

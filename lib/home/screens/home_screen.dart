@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
               children: <Widget>[
                 const Icon(
                   CupertinoIcons.calendar,
-                  color: Color(0xFF222831),
+                  color: AppTheme.accentColor,
                   size: 40.0,
                 ),
                 const SizedBox(
@@ -47,14 +47,18 @@ class HomeScreen extends StatelessWidget {
                   height: 10.0,
                 ),
                 Row(
-                  children: const <Widget>[
-                    AmountIndicator(type: 'Income', amount: 336000),
-                    SizedBox(
+                  children: <Widget>[
+                    AmountIndicator(
+                        type: 'Income',
+                        amount: Transaction.getIncomeAmount(transactions)),
+                    const SizedBox(
                       width: 20.0,
                     ),
-                    AmountIndicator(type: 'Expense', amount: 336000),
+                    AmountIndicator(
+                        type: 'Expense',
+                        amount: Transaction.getExpenseAmount(transactions)),
                   ],
-                )
+                ),
               ],
             ),
           ),
@@ -65,7 +69,7 @@ class HomeScreen extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
             width: double.infinity,
-            color: const Color(0xFFEEEEEE),
+            color: AppTheme.lightColor,
             child: const Text(
               'Transactions',
               style: TextStyle(
@@ -76,7 +80,7 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              color: const Color(0xFFEEEEEE),
+              color: AppTheme.lightColor,
               padding:
                   const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 50.0),
               child: TransactionList(transactions: transactions),

@@ -38,7 +38,7 @@ class AmountIndicator extends StatelessWidget {
               ),
             ),
             Text(
-              '\$${amount.toStringAsFixed(0)}',
+              '¥ ${amount.toStringAsFixed(0)}',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,

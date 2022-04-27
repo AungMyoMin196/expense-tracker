@@ -12,7 +12,13 @@ class TransactionListTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       child: ListTile(
-        leading: transaction.getCategoryIcon(),
+        leading: CircleAvatar(
+          backgroundColor: transaction.getCategoryInfo().color,
+          child: Icon(
+            transaction.getCategoryInfo().icon,
+            color: Colors.white,
+          ),
+        ),
         title: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,7 +31,7 @@ class TransactionListTile extends StatelessWidget {
               ),
             ),
             Text(
-              transaction.getCategoryName(),
+              transaction.getCategoryInfo().name,
               style: const TextStyle(
                 fontSize: 12.0,
                 fontWeight: FontWeight.w300,
