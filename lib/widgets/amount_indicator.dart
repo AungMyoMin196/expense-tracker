@@ -5,7 +5,7 @@ class AmountIndicator extends StatelessWidget {
   const AmountIndicator({Key? key, required this.amount, required this.type})
       : super(key: key);
 
-  final double amount;
+  final num amount;
   final String type;
 
   @override
