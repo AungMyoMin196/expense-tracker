@@ -1,14 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:expense_tracker/define/enums/category_enum.dart';
-import 'package:expense_tracker/models/category_info.dart';
 import 'package:expense_tracker/services/abstracts/firestore_abstract.dart';
-import 'package:expense_tracker/theme/category_color.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Transaction extends Equatable implements FirestoreDocAbstract {
-  final String id;
+  final String? id;
   final String type;
   final String name;
   final CategoryEnum categoryId;
@@ -17,52 +14,13 @@ class Transaction extends Equatable implements FirestoreDocAbstract {
   final Timestamp createdAt;
 
   const Transaction(
-      {required this.id,
+      {this.id,
       required this.type,
       required this.name,
       required this.categoryId,
       required this.amount,
       this.note,
       required this.createdAt});
-
-  CategoryInfo getCategoryInfo() {
-    switch (categoryId) {
-      case CategoryEnum.food:
-        return CategoryInfo(
-            name: 'Food', icon: Icons.lunch_dining, color: CategoryColor.food);
-      case CategoryEnum.shopping:
-        return CategoryInfo(
-            name: 'Shopping',
-            icon: Icons.shopping_bag,
-            color: CategoryColor.shopping);
-      case CategoryEnum.transportation:
-        return CategoryInfo(
-            name: 'Transportation',
-            icon: Icons.commute,
-            color: CategoryColor.transportation);
-      case CategoryEnum.health:
-        return CategoryInfo(
-            name: 'Health',
-            icon: Icons.health_and_safety,
-            color: CategoryColor.health);
-      case CategoryEnum.beauty:
-        return CategoryInfo(
-            name: 'Beauty', icon: Icons.spa, color: CategoryColor.beauty);
-      case CategoryEnum.entertainment:
-        return CategoryInfo(
-            name: 'Entertainment',
-            icon: Icons.sentiment_very_satisfied,
-            color: CategoryColor.entertainment);
-      case CategoryEnum.travel:
-        return CategoryInfo(
-            name: 'Travel',
-            icon: Icons.flight_takeoff,
-            color: CategoryColor.travel);
-      default:
-        return CategoryInfo(
-            name: 'Others', icon: Icons.style, color: CategoryColor.others);
-    }
-  }
 
   bool isExpense() {
     return type.toLowerCase() == 'expense';
@@ -75,9 +33,11 @@ class Transaction extends Equatable implements FirestoreDocAbstract {
   }
 
   String getDisplayCreatedAt() {
-    return DateFormat.MMMMd()
-        .add_Hm()
-        .format(DateTime.parse(createdAt.toDate().toString()));
+    return DateFormat.MMMd().add_Hm().format(createdAt.toDate());
+  }
+
+  String getDisplayMonth() {
+    return DateFormat.MMMM().format(createdAt.toDate());
   }
 
   factory Transaction.fromFirebase(Map<String, dynamic> doc) => Transaction(
@@ -94,7 +54,7 @@ class Transaction extends Equatable implements FirestoreDocAbstract {
   Map<String, dynamic> toFirebase() => {
         'type': type,
         'name': name,
-        'categoryId': categoryId,
+        'categoryId': categoryId.index + 1,
         'amount': amount,
         'note': note,
         'createdAt': createdAt,
@@ -130,4 +90,14 @@ class Transaction extends Equatable implements FirestoreDocAbstract {
 
   @override
   List<Object?> get props => [id, type, name, categoryId, amount, createdAt];
+}
+
+class TransactionQueryParams extends Equatable {
+  final Timestamp? createdAtFrom;
+  final Timestamp? createdAtTo;
+
+  const TransactionQueryParams({this.createdAtFrom, this.createdAtTo});
+
+  @override
+  List<Object?> get props => [createdAtFrom, createdAtTo];
 }

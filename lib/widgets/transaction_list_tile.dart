@@ -1,3 +1,4 @@
+import 'package:expense_tracker/models/category_info.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:flutter/material.dart';
 
@@ -8,14 +9,16 @@ class TransactionListTile extends StatelessWidget {
   final Transaction transaction;
   @override
   Widget build(BuildContext context) {
+    CategoryInfo categoryInfo =
+        CategoryInfo.getCategoryInfo(transaction.categoryId);
     return Card(
       margin: const EdgeInsets.only(bottom: 12.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: transaction.getCategoryInfo().color,
+          backgroundColor: categoryInfo.color,
           child: Icon(
-            transaction.getCategoryInfo().icon,
+            categoryInfo.icon,
             color: Colors.white,
           ),
         ),
@@ -31,7 +34,7 @@ class TransactionListTile extends StatelessWidget {
               ),
             ),
             Text(
-              transaction.getCategoryInfo().name,
+              categoryInfo.name,
               style: const TextStyle(
                 fontSize: 12.0,
                 fontWeight: FontWeight.w300,

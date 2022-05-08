@@ -8,5 +8,6 @@ class CategoryColor {
   static const beauty = Colors.green;
   static const entertainment = Colors.orange;
   static const travel = Colors.indigoAccent;
+  static const income = Colors.orangeAccent;
   static const others = Colors.grey;
 }

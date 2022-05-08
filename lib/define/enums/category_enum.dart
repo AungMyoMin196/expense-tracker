@@ -6,5 +6,6 @@ enum CategoryEnum {
   beauty,
   entertainment,
   travel,
+  income,
   other,
 }

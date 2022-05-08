@@ -4,24 +4,23 @@ abstract class FirestoreDocAbstract {
   toFirebase();
 }
 
-abstract class FirestoreAbstract<T extends FirestoreDocAbstract> {
+abstract class FirestoreAbstract<T extends FirestoreDocAbstract, K> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   String getPath();
 
   T createModel(DocumentSnapshot<Map<String, dynamic>> doc);
 
-  Future<List<T>> getCollection() {
-    // try {
-    //   QuerySnapshot<Map<String, dynamic>> querySnapshot =
-    //       await firestore.collection(getPath()).get();
+  Query<Map<String, dynamic>> createQuery(
+      Query<Map<String, dynamic>> collectionRef, K? queryParams) {
+    return collectionRef;
+  }
 
-    //   return querySnapshot.docs.map(createModel).toList();
-    // } on Exception {
-    //   rethrow;
-    // }
-    return firestore
-        .collection(getPath())
+  Future<List<T>> getCollection(K? queryParams) {
+    CollectionReference<Map<String, dynamic>> collectionRef =
+        firestore.collection(getPath());
+
+    return createQuery(collectionRef, queryParams)
         .get()
         .then(
           (querySnapshot) => querySnapshot.docs.map(createModel).toList(),
@@ -29,9 +28,11 @@ abstract class FirestoreAbstract<T extends FirestoreDocAbstract> {
         .catchError((Object e, StackTrace stackTrace) => throw e);
   }
 
-  Stream<List<T>> getCollectionSteam() {
-    return firestore
-        .collection(getPath())
+  Stream<List<T>> getCollectionSteam(K? queryParams) {
+    CollectionReference<Map<String, dynamic>> collectionRef =
+        firestore.collection(getPath());
+
+    return createQuery(collectionRef, queryParams)
         .snapshots()
         .asyncMap(
             (querySnapshot) => querySnapshot.docs.map(createModel).toList())

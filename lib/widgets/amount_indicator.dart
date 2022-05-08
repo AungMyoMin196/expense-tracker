@@ -2,11 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AmountIndicator extends StatelessWidget {
-  const AmountIndicator({Key? key, required this.amount, required this.type})
+  const AmountIndicator(
+      {Key? key,
+      required this.amount,
+      required this.type,
+      this.isMinus = false})
       : super(key: key);
 
   final num amount;
   final String type;
+  final bool isMinus;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +43,9 @@ class AmountIndicator extends StatelessWidget {
               ),
             ),
             Text(
-              '¥ ${amount.toStringAsFixed(0)}',
-              style: const TextStyle(
-                color: Colors.white,
+              (isMinus ? '-' : '') + '¥ ${amount.toStringAsFixed(0)}',
+              style: TextStyle(
+                color: isMinus ? Colors.red : Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
               ),

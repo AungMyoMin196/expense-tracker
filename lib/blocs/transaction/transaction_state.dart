@@ -23,15 +23,17 @@ class TransactionLoadingState extends TransactionState {
 }
 
 class TransactionLoadedState extends TransactionState {
-  const TransactionLoadedState({required this.transactions});
+  const TransactionLoadedState(
+      {required this.transactions, required this.transactionMonth});
 
   final List<Transaction> transactions;
+  final String transactionMonth;
 
   @override
   String toString() => 'TransactionLoadedState';
 
   @override
-  List<Object> get props => [transactions];
+  List<Object> get props => [transactions, transactionMonth];
 }
 
 class TransactionAddedState extends TransactionState {
@@ -53,6 +55,15 @@ class TransactionRemovedState extends TransactionState {
 
   @override
   String toString() => 'TransactionRemovedState';
+}
+
+class TransactionQueryParamsChangedState extends TransactionState {
+  const TransactionQueryParamsChangedState({required this.queryParams});
+
+  final TransactionQueryParams queryParams;
+
+  @override
+  String toString() => 'TransactionQueryParamsChangedState';
 }
 
 class TransactionErrorState extends TransactionState {
