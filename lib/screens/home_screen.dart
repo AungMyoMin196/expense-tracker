@@ -8,14 +8,21 @@ import 'package:expense_tracker/widgets/transaction_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({
     Key? key,
   }) : super(key: key);
 
-  void _emitTransactionQueryParamsChangeEvent(
-      DateTime selectedDate, BuildContext context) {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  DateTime selectedDate = DateTime.now();
+
+  void _emitTransactionQueryParamsChangeEvent(BuildContext context) {
     final queryParams = TransactionQueryParams(
       createdAtFrom: firestore.Timestamp.fromDate(
           DateTime(selectedDate.year, selectedDate.month)),
@@ -30,13 +37,16 @@ class HomeScreen extends StatelessWidget {
   void _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: selectedDate,
       firstDate: DateTime(1900),
       lastDate: DateTime(3000),
     );
 
     if (pickedDate != null) {
-      _emitTransactionQueryParamsChangeEvent(pickedDate, context);
+      setState(() {
+        selectedDate = pickedDate;
+      });
+      _emitTransactionQueryParamsChangeEvent(context);
     }
   }
 
@@ -58,17 +68,17 @@ class HomeScreen extends StatelessWidget {
       body: BlocBuilder<TransactionBloc, TransactionState>(
         builder: (context, state) {
           if (state is TransactionInitialState) {
-            _emitTransactionQueryParamsChangeEvent(DateTime.now(), context);
+            _emitTransactionQueryParamsChangeEvent(context);
+          }
+
+          if (state is TransactionAddedState) {
+            _emitTransactionQueryParamsChangeEvent(context);
           }
 
           if (state is TransactionLoadingState) {
             return const Center(
               child: CircularProgressIndicator(color: AppTheme.accentColor),
             );
-          }
-
-          if (state is TransactionAddedState) {
-            _emitTransactionQueryParamsChangeEvent(DateTime.now(), context);
           }
 
           if (state is TransactionLoadedState) {
@@ -100,7 +110,7 @@ class HomeScreen extends StatelessWidget {
                         height: 10.0,
                       ),
                       Text(
-                        state.transactionMonth,
+                        DateFormat.MMMM().format(selectedDate),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 40.0,

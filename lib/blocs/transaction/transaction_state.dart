@@ -23,17 +23,15 @@ class TransactionLoadingState extends TransactionState {
 }
 
 class TransactionLoadedState extends TransactionState {
-  const TransactionLoadedState(
-      {required this.transactions, required this.transactionMonth});
+  const TransactionLoadedState({required this.transactions});
 
   final List<Transaction> transactions;
-  final String transactionMonth;
 
   @override
   String toString() => 'TransactionLoadedState';
 
   @override
-  List<Object> get props => [transactions, transactionMonth];
+  List<Object> get props => [transactions];
 }
 
 class TransactionAddedState extends TransactionState {

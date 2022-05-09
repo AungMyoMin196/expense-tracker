@@ -20,7 +20,7 @@ class _AddTransactionState extends State<AddTransaction> {
   late String transactionName;
   late num amount;
   String? note;
-  TransactionTypeEnum type = TransactionTypeEnum.income;
+  TransactionTypeEnum typeId = TransactionTypeEnum.income;
   CategoryEnum categoryId = CategoryEnum.food;
 
   @override
@@ -132,10 +132,10 @@ class _AddTransactionState extends State<AddTransaction> {
                       child: Radio<TransactionTypeEnum>(
                         activeColor: AppTheme.primaryColor,
                         value: TransactionTypeEnum.income,
-                        groupValue: type,
+                        groupValue: typeId,
                         onChanged: (TransactionTypeEnum? value) {
                           setState(() {
-                            type = value!;
+                            typeId = value!;
                           });
                         },
                       ),
@@ -152,10 +152,10 @@ class _AddTransactionState extends State<AddTransaction> {
                       child: Radio<TransactionTypeEnum>(
                         activeColor: AppTheme.primaryColor,
                         value: TransactionTypeEnum.expense,
-                        groupValue: type,
+                        groupValue: typeId,
                         onChanged: (TransactionTypeEnum? value) {
                           setState(() {
-                            type = value!;
+                            typeId = value!;
                           });
                         },
                       ),
@@ -207,9 +207,7 @@ class _AddTransactionState extends State<AddTransaction> {
               BlocProvider.of<TransactionBloc>(context).add(AddTransactionEvent(
                   transaction: Transaction(
                       name: transactionName,
-                      type: type == TransactionTypeEnum.income
-                          ? 'income'
-                          : 'expense',
+                      typeId: typeId,
                       categoryId: categoryId,
                       amount: amount,
                       note: note,

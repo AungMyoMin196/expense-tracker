@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-abstract class FirestoreDocAbstract {
+abstract class ToFirebase {
   toFirebase();
 }
 
-abstract class FirestoreAbstract<T extends FirestoreDocAbstract, K> {
+abstract class FirestoreAbstract<T extends ToFirebase, K> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   String getPath();

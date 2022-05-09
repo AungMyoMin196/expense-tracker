@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:expense_tracker/define/enums/category_enum.dart';
+import 'package:expense_tracker/define/enums/transaction_type_enum.dart';
 import 'package:expense_tracker/services/abstracts/firestore_abstract.dart';
 import 'package:intl/intl.dart';
 
-class Transaction extends Equatable implements FirestoreDocAbstract {
+class Transaction extends Equatable implements ToFirebase {
   final String? id;
-  final String type;
+  final TransactionTypeEnum typeId;
   final String name;
   final CategoryEnum categoryId;
   final num amount;
@@ -15,7 +16,7 @@ class Transaction extends Equatable implements FirestoreDocAbstract {
 
   const Transaction(
       {this.id,
-      required this.type,
+      required this.typeId,
       required this.name,
       required this.categoryId,
       required this.amount,
@@ -23,7 +24,7 @@ class Transaction extends Equatable implements FirestoreDocAbstract {
       required this.createdAt});
 
   bool isExpense() {
-    return type.toLowerCase() == 'expense';
+    return typeId == TransactionTypeEnum.expense;
   }
 
   String getDisplayAmount() {
@@ -36,13 +37,13 @@ class Transaction extends Equatable implements FirestoreDocAbstract {
     return DateFormat.MMMd().add_Hm().format(createdAt.toDate());
   }
 
-  String getDisplayMonth() {
-    return DateFormat.MMMM().format(createdAt.toDate());
+  String getTransactionTypeName() {
+    return isExpense() ? 'expense' : 'income';
   }
 
   factory Transaction.fromFirebase(Map<String, dynamic> doc) => Transaction(
         id: doc['id'],
-        type: doc['type'],
+        typeId: TransactionTypeEnum.values[doc['typeId'] - 1],
         name: doc['name'],
         categoryId: CategoryEnum.values[doc['categoryId'] - 1],
         amount: doc['amount'],
@@ -52,7 +53,7 @@ class Transaction extends Equatable implements FirestoreDocAbstract {
 
   @override
   Map<String, dynamic> toFirebase() => {
-        'type': type,
+        'typeId': typeId.index + 1,
         'name': name,
         'categoryId': categoryId.index + 1,
         'amount': amount,
@@ -89,7 +90,7 @@ class Transaction extends Equatable implements FirestoreDocAbstract {
   }
 
   @override
-  List<Object?> get props => [id, type, name, categoryId, amount, createdAt];
+  List<Object?> get props => [id, typeId, name, categoryId, amount, createdAt];
 }
 
 class TransactionQueryParams extends Equatable {

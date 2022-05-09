@@ -52,13 +52,13 @@ class RemoveTransactionEvent extends TransactionEvent {
 }
 
 class ChangeTransactionQueryParamsEvent extends TransactionEvent {
-  const ChangeTransactionQueryParamsEvent({this.queryParams});
+  const ChangeTransactionQueryParamsEvent({required this.queryParams});
 
-  final TransactionQueryParams? queryParams;
+  final TransactionQueryParams queryParams;
 
   @override
   String toString() => 'ChangeTransactionQueryParamsEvent';
 
-  // @override
-  // List<Object> get props => [queryParams!];
+  @override
+  List<Object> get props => [queryParams];
 }
