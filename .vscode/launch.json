@@ -12,6 +12,7 @@
             "args": [
                 "--flavor",
                 "development",
+                "--verbose",
             ]
         },
         {

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/data/models/transaction.dart';
 
 abstract class TransactionState extends Equatable {
   const TransactionState();
@@ -62,6 +62,20 @@ class TransactionQueryParamsChangedState extends TransactionState {
 
   @override
   String toString() => 'TransactionQueryParamsChangedState';
+}
+
+class TransactionFromValidationSuccessState extends TransactionState {
+  const TransactionFromValidationSuccessState();
+
+  @override
+  String toString() => 'TransactionFromValidationSuccessState';
+}
+
+class TransactionFromValidationFailedState extends TransactionState {
+  const TransactionFromValidationFailedState();
+
+  @override
+  String toString() => 'TransactionFromValidationSuccessState';
 }
 
 class TransactionErrorState extends TransactionState {

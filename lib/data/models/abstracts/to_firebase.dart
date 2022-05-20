@@ -1,0 +1,3 @@
+abstract class ToFirebase {
+  toFirebase();
+}

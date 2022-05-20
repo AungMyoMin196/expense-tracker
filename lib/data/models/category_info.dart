@@ -1,5 +1,5 @@
-import 'package:expense_tracker/define/enums/category_enum.dart';
-import 'package:expense_tracker/theme/category_color.dart';
+import 'package:expense_tracker/defines/enums/category_enum.dart';
+import 'package:expense_tracker/themes/category_color.dart';
 import 'package:flutter/material.dart';
 
 class CategoryInfo {

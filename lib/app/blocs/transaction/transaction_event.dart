@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/data/models/transaction.dart';
 
 abstract class TransactionEvent extends Equatable {
   const TransactionEvent();

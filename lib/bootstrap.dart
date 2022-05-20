@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:expense_tracker/app/app.dart';
 import 'package:expense_tracker/app/app_bloc_observer.dart';
-import 'package:expense_tracker/blocs/transaction/transaction_bloc.dart';
+import 'package:expense_tracker/app/blocs/blocs.dart';
+import 'package:expense_tracker/data/repositories/repositories.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +17,15 @@ void bootstrap(App app) {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
     await BlocOverrides.runZoned(
-      () async => runApp(MultiBlocProvider(
-        providers: [
-          BlocProvider<TransactionBloc>(
-            create: (BuildContext context) => TransactionBloc(),
+      () async => runApp(
+        MultiRepositoryProvider(
+          providers: Repositories.provide(),
+          child: MultiBlocProvider(
+            providers: Blocs.provide(),
+            child: app,
           ),
-        ],
-        child: app,
-      )),
+        ),
+      ),
       blocObserver: AppBlocObserver(),
     );
   },

@@ -4,12 +4,9 @@ pre-commit:
     formatter:
       glob: '*.dart'
       run: flutter format {staged_files} && git add .
-    lintLib:
+    linter:
       glob: '*.dart'
       run: dart fix --apply lib && git add .
-    lintPackages:
-      glob: '*.dart'
-      run: dart fix --apply lib && git add .
-    analyze:
+    analyzer:
       glob: '*.dart'
       run: flutter analyze

@@ -1,8 +1,8 @@
-import 'package:expense_tracker/models/transaction.dart';
-import 'package:expense_tracker/services/abstracts/firestore_abstract.dart';
+import 'package:expense_tracker/data/models/transaction.dart';
+import 'package:expense_tracker/data/repositories/abstracts/firestore_crud_abstract.dart';
 
-class TransactionService
-    extends FirestoreAbstract<Transaction, TransactionQueryParams> {
+class TransactionRepository
+    extends FirestoreCrudAbstract<Transaction, TransactionQueryParams> {
   final String _collectionPath = 'transactions';
 
   @override

@@ -1,5 +1,5 @@
-import 'package:expense_tracker/models/category_info.dart';
-import 'package:expense_tracker/models/transaction.dart';
+import 'package:expense_tracker/data/models/category_info.dart';
+import 'package:expense_tracker/data/models/transaction.dart';
 import 'package:flutter/material.dart';
 
 class TransactionListTile extends StatelessWidget {

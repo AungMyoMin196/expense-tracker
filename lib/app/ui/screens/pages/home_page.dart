@@ -1,25 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
-import 'package:expense_tracker/blocs/transaction/index.dart';
-import 'package:expense_tracker/models/transaction.dart';
-import 'package:expense_tracker/theme/app_theme.dart';
-import 'package:expense_tracker/widgets/add_transaction.dart';
-import 'package:expense_tracker/widgets/amount_indicator.dart';
-import 'package:expense_tracker/widgets/transaction_list.dart';
+import 'package:expense_tracker/app/blocs/transaction/index.dart';
+import 'package:expense_tracker/app/ui/screens/modals/add_transaction_modal.dart';
+import 'package:expense_tracker/app/ui/widgets/features/amount_indicator.dart';
+import 'package:expense_tracker/app/ui/widgets/features/transaction_list.dart';
+import 'package:expense_tracker/data/models/transaction.dart';
+import 'package:expense_tracker/themes/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({
+class HomePage extends StatefulWidget {
+  static const String routePath = '/';
+
+  const HomePage({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomePageState extends State<HomePage> {
   DateTime selectedDate = DateTime.now();
 
   void _emitTransactionQueryParamsChangeEvent(BuildContext context) {
@@ -60,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
-            builder: (_) => const AddTransaction(),
+            builder: (_) => const AddTransactionModal(),
           );
         },
         child: const Icon(Icons.add),

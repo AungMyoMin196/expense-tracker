@@ -1,18 +1,19 @@
 import 'dart:developer' as developer;
 import 'package:bloc/bloc.dart';
-import 'package:expense_tracker/blocs/transaction/index.dart';
-import 'package:expense_tracker/models/transaction.dart';
-import 'package:expense_tracker/services/transaction_service.dart';
+import 'package:expense_tracker/app/blocs/transaction/index.dart';
+import 'package:expense_tracker/data/models/transaction.dart';
+import 'package:expense_tracker/data/repositories/transaction_repository.dart';
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
-  final _transactionService = TransactionService();
+  final TransactionRepository _transactionRepository;
 
-  TransactionBloc() : super(const TransactionInitialState()) {
+  TransactionBloc(this._transactionRepository)
+      : super(const TransactionInitialState()) {
     on<LoadTransactionEvent>((event, emit) async {
       try {
         emit(const TransactionLoadingState());
         List<Transaction> transactions =
-            await _transactionService.getCollection(null);
+            await _transactionRepository.getCollection(null);
         emit(TransactionLoadedState(transactions: transactions));
       } on Exception catch (e) {
         developer.log(e.toString());
@@ -22,7 +23,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     on<AddTransactionEvent>((event, emit) async {
       try {
         emit(const TransactionLoadingState());
-        await _transactionService.setItem(item: event.transaction);
+        await _transactionRepository.setItem(item: event.transaction);
         emit(const TransactionAddedState());
       } on Exception catch (e) {
         developer.log(e.toString());
@@ -32,7 +33,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     on<UpdateTransactionEvent>((event, emit) async {
       try {
         emit(const TransactionLoadingState());
-        await _transactionService.setItem(item: event.transaction);
+        await _transactionRepository.setItem(item: event.transaction);
         emit(const TransactionUpdatedState());
       } on Exception catch (e) {
         developer.log(e.toString());
@@ -42,7 +43,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     on<RemoveTransactionEvent>((event, emit) async {
       try {
         emit(const TransactionLoadingState());
-        await _transactionService.removeItem(event.transaction.id!);
+        await _transactionRepository.removeItem(event.transaction.id!);
         emit(const TransactionRemovedState());
       } on Exception catch (e) {
         developer.log(e.toString());
@@ -53,7 +54,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       try {
         emit(const TransactionLoadingState());
         List<Transaction> transactions =
-            await _transactionService.getCollection(event.queryParams);
+            await _transactionRepository.getCollection(event.queryParams);
         emit(TransactionLoadedState(transactions: transactions));
       } on Exception catch (e) {
         developer.log(e.toString());
