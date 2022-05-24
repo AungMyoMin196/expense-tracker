@@ -1,12 +1,12 @@
 pre-commit:
   parallel: false
   commands:
-    formatter:
+    1_formatter:
       glob: '*.dart'
       run: flutter format {staged_files} && git add .
-    linter:
+    2_linter:
       glob: '*.dart'
       run: dart fix --apply lib && git add .
-    analyzer:
+    3_analyzer:
       glob: '*.dart'
       run: flutter analyze
