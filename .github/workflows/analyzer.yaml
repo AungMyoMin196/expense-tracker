@@ -1,0 +1,32 @@
+name: Analyzer
+
+on:
+  push:
+    branches:
+      - '*'
+      - '*/*'
+      - '**'
+
+jobs:
+  flutter_analyze:
+    name: Run flutter analyzer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up repository
+        uses: actions/checkout@v1
+
+      - name: Set up java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+
+      - name: Set up flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.0.1'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run flutter analyze
+        run: flutter analyze
