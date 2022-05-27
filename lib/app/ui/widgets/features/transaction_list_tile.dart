@@ -11,9 +11,12 @@ class TransactionListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     CategoryInfo categoryInfo =
         CategoryInfo.getCategoryInfo(transaction.categoryId);
-    return Card(
+    return Container(
       margin: const EdgeInsets.only(bottom: 12.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5.0),
+        color: Colors.white,
+      ),
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: categoryInfo.color,

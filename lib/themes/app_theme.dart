@@ -24,11 +24,13 @@ class AppTheme {
   static ThemeData get light {
     return ThemeData(
       primaryColor: primaryColor,
+      // ignore: deprecated_member_use
+      accentColor: primaryColor, // for month picker dialog
+      fontFamily: 'Poppins',
       colorScheme: ColorScheme.fromSwatch(
         primarySwatch: primarySwatch,
         accentColor: accentColor,
-      ),
-      fontFamily: 'Poppins',
+      ).copyWith(secondary: accentColor),
     );
   }
 

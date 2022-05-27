@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 class HomePage extends StatefulWidget {
   static const String routePath = '/';
@@ -32,18 +33,18 @@ class _HomePageState extends State<HomePage> {
           DateTime(selectedDate.year, selectedDate.month + 1)),
     );
 
-    BlocProvider.of<TransactionBloc>(context)
+    context
+        .read<TransactionBloc>()
         .add(ChangeTransactionQueryParamsEvent(queryParams: queryParams));
   }
 
   void _selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
+    final DateTime? pickedDate = await showMonthPicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(1900),
       lastDate: DateTime(3000),
     );
-
     if (pickedDate != null) {
       setState(() {
         selectedDate = pickedDate;
@@ -74,6 +75,10 @@ class _HomePageState extends State<HomePage> {
           }
 
           if (state is TransactionAddedState) {
+            _emitTransactionQueryParamsChangeEvent(context);
+          }
+
+          if (state is TransactionRemovedState) {
             _emitTransactionQueryParamsChangeEvent(context);
           }
 
