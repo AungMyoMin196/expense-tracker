@@ -63,7 +63,7 @@ class _AddTransactionModalState extends State<AddTransactionModal> {
           child: Container(
             padding:
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-            height: MediaQuery.of(context).size.height * 0.95,
+            // height: MediaQuery.of(context).size.height * 0.95,
             child: FormBuilder(
               key: _formKey,
               autoFocusOnValidationFailure: true,

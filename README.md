@@ -7,7 +7,7 @@ Personal expense tracker project with flutter and firebase
 - Install Xcode
 - Install AndroidStudio
 - [Install flutter version manager for flutter sdk](https://fvm.app/docs/getting_started/installation)
-- Install lefthook using brew or ```brew install lefthook``` or ```npm i @arkweid/lefthook```
+- Install lefthook using  ```brew install lefthook``` or ```npm i @arkweid/lefthook```
 
 ## SetUp
 
