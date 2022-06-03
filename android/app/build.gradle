@@ -73,7 +73,7 @@ android {
         }
         production {
             dimension "environment"
-            resValue "string", "app_name", "Expense Tracker Dev"
+            resValue "string", "app_name", "Expense Tracker"
             applicationIdSuffix ""
         }
     }

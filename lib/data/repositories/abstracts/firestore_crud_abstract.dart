@@ -16,7 +16,6 @@ abstract class FirestoreCrudAbstract<T extends ToFirebase, K> {
   Future<List<T>> getCollection(K? queryParams) {
     CollectionReference<Map<String, dynamic>> collectionRef =
         firestore.collection(getPath());
-
     return createQuery(collectionRef, queryParams)
         .get()
         .then(

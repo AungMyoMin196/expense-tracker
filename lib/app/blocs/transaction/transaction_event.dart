@@ -1,11 +1,7 @@
-import 'package:equatable/equatable.dart';
 import 'package:expense_tracker/data/models/transaction.dart';
 
-abstract class TransactionEvent extends Equatable {
+abstract class TransactionEvent {
   const TransactionEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
 class LoadTransactionEvent extends TransactionEvent {
@@ -22,9 +18,6 @@ class AddTransactionEvent extends TransactionEvent {
 
   @override
   String toString() => 'AddTransactionEvent';
-
-  @override
-  List<Object> get props => [transaction];
 }
 
 class UpdateTransactionEvent extends TransactionEvent {
@@ -34,9 +27,6 @@ class UpdateTransactionEvent extends TransactionEvent {
 
   @override
   String toString() => 'UpdateTransactionEvent';
-
-  @override
-  List<Object> get props => [transaction];
 }
 
 class RemoveTransactionEvent extends TransactionEvent {
@@ -46,9 +36,6 @@ class RemoveTransactionEvent extends TransactionEvent {
 
   @override
   String toString() => 'RemoveTransactionEvent';
-
-  @override
-  List<Object> get props => [transaction];
 }
 
 class ChangeTransactionQueryParamsEvent extends TransactionEvent {
@@ -58,7 +45,4 @@ class ChangeTransactionQueryParamsEvent extends TransactionEvent {
 
   @override
   String toString() => 'ChangeTransactionQueryParamsEvent';
-
-  @override
-  List<Object> get props => [queryParams];
 }

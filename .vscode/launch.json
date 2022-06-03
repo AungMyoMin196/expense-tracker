@@ -19,7 +19,7 @@
             "name": "Launch expense_tracker staging",
             "request": "launch",
             "type": "dart",
-            // "flutterMode": "profile",
+            "flutterMode": "profile",
             "program": "lib/main_staging.dart",
             "args": [
                 "--flavor",

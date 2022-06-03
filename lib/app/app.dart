@@ -6,14 +6,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 class App extends StatelessWidget {
-  final String flavor;
+  final String name;
 
-  const App({Key? key, required this.flavor}) : super(key: key);
+  const App({Key? key, required this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Expanse Tracker',
+      title: name,
       theme: AppTheme.light,
       supportedLocales: const [
         Locale('en'),

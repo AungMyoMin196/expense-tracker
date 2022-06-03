@@ -9,11 +9,11 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
   TransactionBloc(this._transactionRepository)
       : super(const TransactionInitialState()) {
-    on<LoadTransactionEvent>((event, emit) async {
+    on<ChangeTransactionQueryParamsEvent>((event, emit) async {
       try {
         emit(const TransactionLoadingState());
         List<Transaction> transactions =
-            await _transactionRepository.getCollection(null);
+            await _transactionRepository.getCollection(event.queryParams);
         emit(TransactionLoadedState(transactions: transactions));
       } on Exception catch (e) {
         developer.log(e.toString());
@@ -24,17 +24,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       try {
         emit(const TransactionLoadingState());
         await _transactionRepository.setItem(item: event.transaction);
-        emit(const TransactionAddedState());
-      } on Exception catch (e) {
-        developer.log(e.toString());
-        emit(TransactionErrorState(e.toString()));
-      }
-    });
-    on<UpdateTransactionEvent>((event, emit) async {
-      try {
-        emit(const TransactionLoadingState());
-        await _transactionRepository.setItem(item: event.transaction);
-        emit(const TransactionUpdatedState());
+        emit(TransactionAddedState(transaction: event.transaction));
       } on Exception catch (e) {
         developer.log(e.toString());
         emit(TransactionErrorState(e.toString()));
@@ -44,18 +34,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       try {
         emit(const TransactionLoadingState());
         await _transactionRepository.removeItem(event.transaction.id!);
-        emit(const TransactionRemovedState());
-      } on Exception catch (e) {
-        developer.log(e.toString());
-        emit(TransactionErrorState(e.toString()));
-      }
-    });
-    on<ChangeTransactionQueryParamsEvent>((event, emit) async {
-      try {
-        emit(const TransactionLoadingState());
-        List<Transaction> transactions =
-            await _transactionRepository.getCollection(event.queryParams);
-        emit(TransactionLoadedState(transactions: transactions));
+        emit(TransactionRemovedState(transaction: event.transaction));
       } on Exception catch (e) {
         developer.log(e.toString());
         emit(TransactionErrorState(e.toString()));

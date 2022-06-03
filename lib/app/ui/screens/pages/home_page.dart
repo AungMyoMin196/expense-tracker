@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import 'package:expense_tracker/app/blocs/transaction/index.dart';
 import 'package:expense_tracker/app/ui/screens/modals/add_transaction_modal.dart';
+import 'package:expense_tracker/app/ui/widgets/features/unknown_error.dart';
 import 'package:expense_tracker/app/ui/widgets/features/amount_indicator.dart';
 import 'package:expense_tracker/app/ui/widgets/features/transaction_list.dart';
 import 'package:expense_tracker/data/models/transaction.dart';
@@ -68,21 +69,29 @@ class _HomePageState extends State<HomePage> {
         },
         child: const Icon(Icons.add),
       ),
-      body: BlocBuilder<TransactionBloc, TransactionState>(
+      body: BlocConsumer<TransactionBloc, TransactionState>(
+        listener: (context, state) {
+          if (state is TransactionAddedState) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text('New transaction has been added')));
+            _emitTransactionQueryParamsChangeEvent(context);
+          }
+          if (state is TransactionRemovedState) {
+            // Then show a snackbar.
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Transaction has been deleted')));
+            _emitTransactionQueryParamsChangeEvent(context);
+          }
+          if (state is TransactionLoadingState) {
+            // do nothing
+          }
+        },
+        buildWhen: (previous, current) {
+          return current is TransactionLoadedState;
+        },
         builder: (context, state) {
           if (state is TransactionInitialState) {
             _emitTransactionQueryParamsChangeEvent(context);
-          }
-
-          if (state is TransactionAddedState) {
-            _emitTransactionQueryParamsChangeEvent(context);
-          }
-
-          if (state is TransactionRemovedState) {
-            _emitTransactionQueryParamsChangeEvent(context);
-          }
-
-          if (state is TransactionLoadingState) {
             return const Center(
               child: CircularProgressIndicator(color: AppTheme.accentColor),
             );
@@ -94,6 +103,9 @@ class _HomePageState extends State<HomePage> {
 
             final expenseAmount =
                 Transaction.getExpenseAmount(state.transactions);
+
+            final String estimateSaving =
+                (incomeAmount - expenseAmount).toStringAsFixed(0);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -147,11 +159,29 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 40.0,
+                  height: 30.0,
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  color: AppTheme.accentColor.withOpacity(0.5),
+                  child: ListTile(
+                    title: Text(
+                      selectedDate.isAfter(DateTime.now()) ||
+                              (DateFormat('yyyy-MM').format(selectedDate) ==
+                                  DateFormat('yyyy-MM').format(DateTime.now()))
+                          ? 'Estimate savings...    ¥ $estimateSaving'
+                          : 'Saved...    ¥ $estimateSaving',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 13.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 25.0),
+                      horizontal: 20.0, vertical: 20.0),
                   width: double.infinity,
                   color: AppTheme.lightColor,
                   child: const Text(
@@ -173,13 +203,7 @@ class _HomePageState extends State<HomePage> {
               ],
             );
           }
-
-          return const Center(
-            child: Text(
-              'Error!',
-              style: TextStyle(color: Colors.red),
-            ),
-          );
+          return const UnknownError();
         },
       ),
     );

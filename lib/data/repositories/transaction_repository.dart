@@ -33,6 +33,6 @@ class TransactionRepository
           isLessThanOrEqualTo: queryParams.createdAtTo);
     }
 
-    return collectionRef;
+    return collectionRef.orderBy('createdAt', descending: true);
   }
 }

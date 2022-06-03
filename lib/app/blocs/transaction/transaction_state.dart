@@ -15,6 +15,15 @@ class TransactionInitialState extends TransactionState {
   String toString() => 'TransactionInitialState';
 }
 
+class TransactionQueryParamsChangedState extends TransactionState {
+  const TransactionQueryParamsChangedState({required this.queryParams});
+
+  final TransactionQueryParams queryParams;
+
+  @override
+  String toString() => 'TransactionQueryParamsChangedState';
+}
+
 class TransactionLoadingState extends TransactionState {
   const TransactionLoadingState();
 
@@ -35,47 +44,21 @@ class TransactionLoadedState extends TransactionState {
 }
 
 class TransactionAddedState extends TransactionState {
-  const TransactionAddedState();
+  const TransactionAddedState({required this.transaction});
+
+  final Transaction transaction;
 
   @override
   String toString() => 'TransactionAddedState';
 }
 
-class TransactionUpdatedState extends TransactionState {
-  const TransactionUpdatedState();
-
-  @override
-  String toString() => 'TransactionUpdatedState';
-}
-
 class TransactionRemovedState extends TransactionState {
-  const TransactionRemovedState();
+  const TransactionRemovedState({required this.transaction});
+
+  final Transaction transaction;
 
   @override
   String toString() => 'TransactionRemovedState';
-}
-
-class TransactionQueryParamsChangedState extends TransactionState {
-  const TransactionQueryParamsChangedState({required this.queryParams});
-
-  final TransactionQueryParams queryParams;
-
-  @override
-  String toString() => 'TransactionQueryParamsChangedState';
-}
-
-class TransactionFromValidationSuccessState extends TransactionState {
-  const TransactionFromValidationSuccessState();
-
-  @override
-  String toString() => 'TransactionFromValidationSuccessState';
-}
-
-class TransactionFromValidationFailedState extends TransactionState {
-  const TransactionFromValidationFailedState();
-
-  @override
-  String toString() => 'TransactionFromValidationSuccessState';
 }
 
 class TransactionErrorState extends TransactionState {

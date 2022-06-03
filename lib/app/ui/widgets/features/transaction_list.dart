@@ -29,9 +29,6 @@ class TransactionList extends StatelessWidget {
             // Remove the item from the data source.
             BlocProvider.of<TransactionBloc>(context)
                 .add(RemoveTransactionEvent(transaction: transaction));
-            // Then show a snackbar.
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Transaction has been deleted')));
           },
           // Show a red background as the item is swiped away.
           background: Container(
