@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
+import 'package:expense_tracker/app/blocs/auth/index.dart';
 import 'package:expense_tracker/app/blocs/transaction/index.dart';
 import 'package:expense_tracker/app/ui/screens/modals/add_transaction_modal.dart';
 import 'package:expense_tracker/app/ui/widgets/features/unknown_error.dart';
@@ -61,6 +62,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppTheme.primaryColor,
         onPressed: () {
+          BlocProvider.of<AuthBloc>(context).add(const SignOutEvent());
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,

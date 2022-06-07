@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker/data/models/abstracts/to_firebase.dart';
 
 abstract class FirestoreCrudAbstract<T extends ToFirebase, K> {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   String getPath();
 
@@ -15,7 +15,7 @@ abstract class FirestoreCrudAbstract<T extends ToFirebase, K> {
 
   Future<List<T>> getCollection(K? queryParams) {
     CollectionReference<Map<String, dynamic>> collectionRef =
-        firestore.collection(getPath());
+        _firestore.collection(getPath());
     return createQuery(collectionRef, queryParams)
         .get()
         .then(
@@ -26,7 +26,7 @@ abstract class FirestoreCrudAbstract<T extends ToFirebase, K> {
 
   Stream<List<T>> getCollectionSteam(K? queryParams) {
     CollectionReference<Map<String, dynamic>> collectionRef =
-        firestore.collection(getPath());
+        _firestore.collection(getPath());
 
     return createQuery(collectionRef, queryParams)
         .snapshots()
@@ -36,7 +36,7 @@ abstract class FirestoreCrudAbstract<T extends ToFirebase, K> {
   }
 
   Future<T> getItem(String id) {
-    return firestore
+    return _firestore
         .collection(getPath())
         .doc(id)
         .get()
@@ -45,7 +45,7 @@ abstract class FirestoreCrudAbstract<T extends ToFirebase, K> {
   }
 
   Future<void> setItem({String? id, required T item}) {
-    return firestore
+    return _firestore
         .collection(getPath())
         .doc(id)
         .set(item.toFirebase())
@@ -53,7 +53,7 @@ abstract class FirestoreCrudAbstract<T extends ToFirebase, K> {
   }
 
   Future<void> removeItem(String id) {
-    return firestore
+    return _firestore
         .collection(getPath())
         .doc(id)
         .delete()
