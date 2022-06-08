@@ -3,7 +3,7 @@ import 'package:expense_tracker/app/ui/screens/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic> authenticatedGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case HomePage.routePath:
         return MaterialPageRoute(builder: (_) => const HomePage());
@@ -16,5 +16,9 @@ class AppRouter {
           ),
         );
     }
+  }
+
+  static Route<dynamic> unauthenticatedGenerateRoute(RouteSettings settings) {
+    return MaterialPageRoute(builder: (_) => const LoginPage());
   }
 }

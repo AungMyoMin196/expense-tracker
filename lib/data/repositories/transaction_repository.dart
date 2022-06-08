@@ -23,6 +23,10 @@ class TransactionRepository
       return collectionRef;
     }
 
+    if (queryParams.uid != null) {
+      collectionRef = collectionRef.where('uid', isEqualTo: queryParams.uid);
+    }
+
     if (queryParams.createdAtFrom != null) {
       collectionRef = collectionRef.where('createdAt',
           isGreaterThanOrEqualTo: queryParams.createdAtFrom);

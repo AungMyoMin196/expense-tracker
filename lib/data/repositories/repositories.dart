@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Repositories {
-  static List<RepositoryProvider> provide() {
+  static List<RepositoryProvider> provideGlobal() {
     return [
       RepositoryProvider<AuthRepository>(
         create: (BuildContext context) => AuthRepository(),

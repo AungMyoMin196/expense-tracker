@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 
 class Transaction extends Equatable implements ToFirebase {
   final String? id;
+  final String uid;
   final TransactionTypeEnum typeId;
   final String name;
   final CategoryEnum categoryId;
@@ -16,6 +17,7 @@ class Transaction extends Equatable implements ToFirebase {
 
   const Transaction(
       {this.id,
+      required this.uid,
       required this.typeId,
       required this.name,
       required this.categoryId,
@@ -43,6 +45,7 @@ class Transaction extends Equatable implements ToFirebase {
 
   factory Transaction.fromFirebase(Map<String, dynamic> doc) => Transaction(
         id: doc['id'],
+        uid: doc['uid'],
         typeId: TransactionTypeEnum.values[doc['typeId'] - 1],
         name: doc['name'],
         categoryId: CategoryEnum.values[doc['categoryId'] - 1],
@@ -53,6 +56,7 @@ class Transaction extends Equatable implements ToFirebase {
 
   @override
   Map<String, dynamic> toFirebase() => {
+        'uid': uid,
         'typeId': typeId.index + 1,
         'name': name,
         'categoryId': categoryId.index + 1,
@@ -94,10 +98,12 @@ class Transaction extends Equatable implements ToFirebase {
 }
 
 class TransactionQueryParams extends Equatable {
+  final String? uid;
   final Timestamp? createdAtFrom;
   final Timestamp? createdAtTo;
 
-  const TransactionQueryParams({this.createdAtFrom, this.createdAtTo});
+  const TransactionQueryParams(
+      {this.createdAtFrom, this.createdAtTo, this.uid});
 
   @override
   List<Object?> get props => [createdAtFrom, createdAtTo];

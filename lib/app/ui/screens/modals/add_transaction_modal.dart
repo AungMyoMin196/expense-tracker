@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import 'package:expense_tracker/app/blocs/transaction/transaction_bloc.dart';
 import 'package:expense_tracker/app/blocs/transaction/transaction_event.dart';
+import 'package:expense_tracker/app/services/auth_service.dart';
 import 'package:expense_tracker/data/models/category_info.dart';
 import 'package:expense_tracker/data/models/transaction.dart';
 import 'package:expense_tracker/defines/enums/category_enum.dart';
@@ -35,14 +36,19 @@ class _AddTransactionModalState extends State<AddTransactionModal> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    BlocProvider.of<TransactionBloc>(context).add(AddTransactionEvent(
+    BlocProvider.of<TransactionBloc>(context).add(
+      AddTransactionEvent(
         transaction: Transaction(
-            name: _formKey.currentState!.value['name'],
-            typeId: typeId,
-            categoryId: categoryId,
-            amount: num.parse(_formKey.currentState!.value['amount']),
-            note: _formKey.currentState!.value['note'],
-            createdAt: firestore.Timestamp.now())));
+          uid: AuthService.instance.user!.uid,
+          name: _formKey.currentState!.value['name'],
+          typeId: typeId,
+          categoryId: categoryId,
+          amount: num.parse(_formKey.currentState!.value['amount']),
+          note: _formKey.currentState!.value['note'],
+          createdAt: firestore.Timestamp.now(),
+        ),
+      ),
+    );
     Navigator.pop(context);
   }
 

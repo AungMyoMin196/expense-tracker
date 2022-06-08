@@ -1,7 +1,7 @@
 import 'package:expense_tracker/app/blocs/auth/index.dart';
+import 'package:expense_tracker/app/blocs/blocs.dart';
 import 'package:expense_tracker/app/ui/routes/app_router.dart';
 import 'package:expense_tracker/app/ui/screens/pages/home_page.dart';
-import 'package:expense_tracker/app/ui/screens/pages/login_page.dart';
 import 'package:expense_tracker/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,26 +17,37 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
+        if (state is AuthLoadingState) {
+          return Container(
+            color: AppTheme.primaryColor,
+            child: const Center(
+              child: CircularProgressIndicator(color: AppTheme.accentColor),
+            ),
+          );
+        }
         if (state is AuthenticatedState) {
-          return MaterialApp(
-            title: name,
-            theme: AppTheme.light,
-            supportedLocales: const [
-              Locale('en'),
-            ],
-            localizationsDelegates: const [
-              ...GlobalMaterialLocalizations.delegates,
-              GlobalWidgetsLocalizations.delegate,
-              FormBuilderLocalizations.delegate,
-            ],
-            home: const HomePage(),
-            onGenerateRoute: AppRouter.generateRoute,
+          return MultiBlocProvider(
+            providers: Blocs.provideAuthenticatedLevel(),
+            child: MaterialApp(
+              title: name,
+              theme: AppTheme.light,
+              supportedLocales: const [
+                Locale('en'),
+              ],
+              localizationsDelegates: const [
+                ...GlobalMaterialLocalizations.delegates,
+                GlobalWidgetsLocalizations.delegate,
+                FormBuilderLocalizations.delegate,
+              ],
+              initialRoute: HomePage.routePath,
+              onGenerateRoute: AppRouter.authenticatedGenerateRoute,
+            ),
           );
         }
         return MaterialApp(
           title: name,
           theme: AppTheme.light,
-          home: const LoginPage(),
+          onGenerateRoute: AppRouter.unauthenticatedGenerateRoute,
         );
       },
     );

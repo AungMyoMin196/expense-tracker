@@ -8,6 +8,7 @@
             "name": "Launch expense_tracker development",
             "request": "launch",
             "type": "dart",
+            "flutterMode": "debug",
             "program": "lib/main_development.dart",
             "args": [
                 "--flavor",

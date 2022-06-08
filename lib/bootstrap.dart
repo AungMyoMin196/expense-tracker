@@ -19,9 +19,9 @@ void bootstrap(App app) {
     await BlocOverrides.runZoned(
       () async => runApp(
         MultiRepositoryProvider(
-          providers: Repositories.provide(),
+          providers: Repositories.provideGlobal(),
           child: MultiBlocProvider(
-            providers: Blocs.provide(),
+            providers: Blocs.provideGlobal(),
             child: app,
           ),
         ),

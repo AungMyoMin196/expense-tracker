@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import 'package:expense_tracker/app/blocs/auth/index.dart';
 import 'package:expense_tracker/app/blocs/transaction/index.dart';
+import 'package:expense_tracker/app/services/auth_service.dart';
 import 'package:expense_tracker/app/ui/screens/modals/add_transaction_modal.dart';
+import 'package:expense_tracker/app/ui/screens/pages/login_page.dart';
 import 'package:expense_tracker/app/ui/widgets/features/unknown_error.dart';
 import 'package:expense_tracker/app/ui/widgets/features/amount_indicator.dart';
 import 'package:expense_tracker/app/ui/widgets/features/transaction_list.dart';
 import 'package:expense_tracker/data/models/transaction.dart';
 import 'package:expense_tracker/themes/app_theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
 
   void _emitTransactionQueryParamsChangeEvent(BuildContext context) {
     final queryParams = TransactionQueryParams(
+      uid: AuthService.instance.user!.uid,
       createdAtFrom: firestore.Timestamp.fromDate(
           DateTime(selectedDate.year, selectedDate.month)),
       createdAtTo: firestore.Timestamp.fromDate(
@@ -62,7 +64,6 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppTheme.primaryColor,
         onPressed: () {
-          BlocProvider.of<AuthBloc>(context).add(const SignOutEvent());
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
@@ -117,15 +118,34 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      IconButton(
-                        onPressed: () {
-                          _selectDate(context);
-                        },
-                        icon: const Icon(
-                          CupertinoIcons.calendar,
-                          color: AppTheme.accentColor,
-                          size: 40.0,
-                        ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              _selectDate(context);
+                            },
+                            icon: const Icon(
+                              Icons.calendar_month_outlined,
+                              color: AppTheme.accentColor,
+                              size: 40.0,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              BlocProvider.of<AuthBloc>(context)
+                                  .add(const SignOutEvent());
+                              Navigator.pushReplacementNamed(
+                                  context, LoginPage.routePath);
+                            },
+                            icon: const Icon(
+                              Icons.exit_to_app,
+                              color: AppTheme.accentColor,
+                              size: 40.0,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
                         height: 10.0,
