@@ -2,6 +2,11 @@
 
 Personal expense tracker project with flutter and firebase
 
+|        |        |        |        |
+| -------------- | -------------- | -------------- | -------------- |
+|![ss1](./screenshots/Screenshot_1654677598.png)|![ss2](./screenshots/Screenshot_1654677747.png)|![ss3](./screenshots/Screenshot_1654677759.png)|![ss4](./screenshots/Screenshot_1654677771.png)|
+|        |        |        |        |
+
 ## Prerequisites
 
 - Install Xcode
