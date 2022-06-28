@@ -57,7 +57,7 @@ class TransactionListTile extends StatelessWidget {
               ),
             ),
             Text(
-              transaction.getDisplayCreatedAt(),
+              transaction.getDisplayDate(),
               style: const TextStyle(
                 fontSize: 12.0,
                 fontWeight: FontWeight.w300,

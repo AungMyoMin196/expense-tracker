@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   User? _user;
   List list = [];
-  Map<String, dynamic> params = {'str': 'user'};
 
   static AuthService? _instance;
 

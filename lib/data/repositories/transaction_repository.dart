@@ -27,16 +27,16 @@ class TransactionRepository
       collectionRef = collectionRef.where('uid', isEqualTo: queryParams.uid);
     }
 
-    if (queryParams.createdAtFrom != null) {
-      collectionRef = collectionRef.where('createdAt',
-          isGreaterThanOrEqualTo: queryParams.createdAtFrom);
+    if (queryParams.dateFrom != null) {
+      collectionRef = collectionRef.where('date',
+          isGreaterThanOrEqualTo: queryParams.dateFrom);
     }
 
-    if (queryParams.createdAtTo != null) {
-      collectionRef = collectionRef.where('createdAt',
-          isLessThanOrEqualTo: queryParams.createdAtTo);
+    if (queryParams.dateTo != null) {
+      collectionRef =
+          collectionRef.where('date', isLessThan: queryParams.dateTo);
     }
 
-    return collectionRef.orderBy('createdAt', descending: true);
+    return collectionRef.orderBy('date', descending: true);
   }
 }

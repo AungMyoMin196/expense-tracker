@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:expense_tracker/app/blocs/auth/auth_event.dart';
 import 'package:expense_tracker/app/blocs/auth/auth_state.dart';

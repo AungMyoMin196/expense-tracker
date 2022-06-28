@@ -13,6 +13,7 @@ class Transaction extends Equatable implements ToFirebase {
   final CategoryEnum categoryId;
   final num amount;
   final String? note;
+  final Timestamp date;
   final Timestamp createdAt;
 
   const Transaction(
@@ -22,6 +23,7 @@ class Transaction extends Equatable implements ToFirebase {
       required this.name,
       required this.categoryId,
       required this.amount,
+      required this.date,
       this.note,
       required this.createdAt});
 
@@ -35,8 +37,8 @@ class Transaction extends Equatable implements ToFirebase {
         : '+¥${amount.toStringAsFixed(0)}';
   }
 
-  String getDisplayCreatedAt() {
-    return DateFormat.MMMd().add_Hm().format(createdAt.toDate());
+  String getDisplayDate() {
+    return DateFormat.MMMd().format(date.toDate());
   }
 
   String getTransactionTypeName() {
@@ -50,6 +52,7 @@ class Transaction extends Equatable implements ToFirebase {
         name: doc['name'],
         categoryId: CategoryEnum.values[doc['categoryId'] - 1],
         amount: doc['amount'],
+        date: doc['date'],
         note: doc['note'],
         createdAt: doc['createdAt'],
       );
@@ -61,6 +64,7 @@ class Transaction extends Equatable implements ToFirebase {
         'name': name,
         'categoryId': categoryId.index + 1,
         'amount': amount,
+        'date': date,
         'note': note,
         'createdAt': createdAt,
       };
@@ -76,7 +80,7 @@ class Transaction extends Equatable implements ToFirebase {
 
     return expenseTransactions
         .map((Transaction transaction) => transaction.amount)
-        .reduce((value, element) => value + element);
+        .reduce((acc, cur) => acc + cur);
   }
 
   static num getIncomeAmount(List<Transaction> transactions) {
@@ -90,7 +94,41 @@ class Transaction extends Equatable implements ToFirebase {
 
     return incomeTransactions
         .map((Transaction transaction) => transaction.amount)
-        .reduce((value, element) => value + element);
+        .reduce((acc, cur) => acc + cur);
+  }
+
+  static List<Transaction> getExpenseTransactions(
+      List<Transaction> transactions) {
+    return transactions
+        .where((Transaction transaction) => transaction.isExpense())
+        .toList();
+  }
+
+  static double getAmountRateByCategory(List<Transaction> expenseTransactions,
+      num expenseAmount, CategoryEnum categoryId) {
+    List<Transaction> expenseTransactionsByCategory = expenseTransactions
+        .where(
+            (Transaction transaction) => transaction.categoryId == categoryId)
+        .toList();
+
+    if (expenseTransactionsByCategory.isEmpty) {
+      return 0;
+    }
+
+    num expenseAmountByCategory = expenseTransactionsByCategory
+        .map((Transaction transaction) => transaction.amount)
+        .reduce((acc, cur) => acc + cur);
+    return (expenseAmountByCategory * 100) / expenseAmount;
+  }
+
+  static String getEstimateSavingDisplayText(
+      DateTime selectedDate, num savingAmount) {
+    String _savingAmount = savingAmount.toStringAsFixed(0);
+    return selectedDate.isAfter(DateTime.now()) ||
+            (DateFormat('yyyy-MM').format(selectedDate) ==
+                DateFormat('yyyy-MM').format(DateTime.now()))
+        ? 'Estimate savings...    ¥ $_savingAmount'
+        : 'Saved...    ¥ $_savingAmount';
   }
 
   @override
@@ -99,12 +137,11 @@ class Transaction extends Equatable implements ToFirebase {
 
 class TransactionQueryParams extends Equatable {
   final String? uid;
-  final Timestamp? createdAtFrom;
-  final Timestamp? createdAtTo;
+  final Timestamp? dateFrom;
+  final Timestamp? dateTo;
 
-  const TransactionQueryParams(
-      {this.createdAtFrom, this.createdAtTo, this.uid});
+  const TransactionQueryParams({this.dateFrom, this.dateTo, this.uid});
 
   @override
-  List<Object?> get props => [createdAtFrom, createdAtTo];
+  List<Object?> get props => [uid, dateFrom, dateTo];
 }

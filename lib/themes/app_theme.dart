@@ -31,6 +31,31 @@ class AppTheme {
         primarySwatch: primarySwatch,
         accentColor: accentColor,
       ).copyWith(secondary: accentColor),
+      scaffoldBackgroundColor: primaryColor,
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: primaryColor,
+      ),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: accentColor,
+      ),
+      inputDecorationTheme: const InputDecorationTheme(
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+              width: 1.0,
+              color: AppTheme.primaryColor,
+              style: BorderStyle.solid),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+              width: 2.0,
+              color: AppTheme.primaryColor,
+              style: BorderStyle.solid),
+        ),
+      ),
+      snackBarTheme: const SnackBarThemeData(
+          // backgroundColor: accentColor,
+          // behavior: SnackBarBehavior.floating,
+          ),
     );
   }
 

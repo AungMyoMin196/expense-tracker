@@ -2,10 +2,10 @@
 
 Personal expense tracker project with flutter and firebase
 
-|        |        |        |        |
-| -------------- | -------------- | -------------- | -------------- |
-|![ss1](./screenshots/Screenshot_1654677598.png)|![ss2](./screenshots/Screenshot_1654677747.png)|![ss3](./screenshots/Screenshot_1654677759.png)|![ss4](./screenshots/Screenshot_1654677771.png)|
-|        |        |        |        |
+|        |        |        |        |       |
+| -------------- | -------------- | -------------- | -------------- | -------------- |
+|![ss1](./screenshots/Screenshot_1656400194.png)|![ss2](./screenshots/Screenshot_1656400084.png)| ![ss3](./screenshots/Screenshot_1656399922.png)|![ss3](./screenshots/Screenshot_1656400093.png)|![ss4](./screenshots/Screenshot_1656400098.png)|
+|        |        |        |        |       |
 
 ## Prerequisites
 

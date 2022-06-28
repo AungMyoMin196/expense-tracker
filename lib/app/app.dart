@@ -1,7 +1,8 @@
 import 'package:expense_tracker/app/blocs/auth/index.dart';
 import 'package:expense_tracker/app/blocs/blocs.dart';
 import 'package:expense_tracker/app/ui/routes/app_router.dart';
-import 'package:expense_tracker/app/ui/screens/pages/home_page.dart';
+import 'package:expense_tracker/app/ui/screens/pages/login_page.dart';
+import 'package:expense_tracker/app/ui/screens/root.dart';
 import 'package:expense_tracker/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +31,7 @@ class App extends StatelessWidget {
             providers: Blocs.provideAuthenticatedLevel(),
             child: MaterialApp(
               title: name,
+              debugShowCheckedModeBanner: false,
               theme: AppTheme.light,
               supportedLocales: const [
                 Locale('en'),
@@ -39,15 +41,17 @@ class App extends StatelessWidget {
                 GlobalWidgetsLocalizations.delegate,
                 FormBuilderLocalizations.delegate,
               ],
-              initialRoute: HomePage.routePath,
+              home: const Root(),
               onGenerateRoute: AppRouter.authenticatedGenerateRoute,
             ),
           );
         }
         return MaterialApp(
           title: name,
+          debugShowCheckedModeBanner: false,
           theme: AppTheme.light,
           onGenerateRoute: AppRouter.unauthenticatedGenerateRoute,
+          home: const LoginPage(),
         );
       },
     );

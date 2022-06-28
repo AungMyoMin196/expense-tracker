@@ -6,6 +6,7 @@ import 'package:expense_tracker/data/repositories/repositories.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void bootstrap(App app) {
@@ -15,6 +16,8 @@ void bootstrap(App app) {
     await Firebase.initializeApp();
     FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     await BlocOverrides.runZoned(
       () async => runApp(

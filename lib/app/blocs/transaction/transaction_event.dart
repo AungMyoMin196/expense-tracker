@@ -4,11 +4,13 @@ abstract class TransactionEvent {
   const TransactionEvent();
 }
 
-class LoadTransactionEvent extends TransactionEvent {
-  const LoadTransactionEvent();
+class ChangeTransactionQueryParamsEvent extends TransactionEvent {
+  const ChangeTransactionQueryParamsEvent({required this.queryParams});
+
+  final TransactionQueryParams queryParams;
 
   @override
-  String toString() => 'LoadTransactionEvent';
+  String toString() => 'ChangeTransactionQueryParamsEvent';
 }
 
 class AddTransactionEvent extends TransactionEvent {
@@ -36,13 +38,4 @@ class RemoveTransactionEvent extends TransactionEvent {
 
   @override
   String toString() => 'RemoveTransactionEvent';
-}
-
-class ChangeTransactionQueryParamsEvent extends TransactionEvent {
-  const ChangeTransactionQueryParamsEvent({required this.queryParams});
-
-  final TransactionQueryParams queryParams;
-
-  @override
-  String toString() => 'ChangeTransactionQueryParamsEvent';
 }

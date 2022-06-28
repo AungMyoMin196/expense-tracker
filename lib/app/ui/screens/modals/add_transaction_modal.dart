@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:intl/intl.dart';
 
 class AddTransactionModal extends StatefulWidget {
   const AddTransactionModal({Key? key, this.name}) : super(key: key);
@@ -44,6 +45,8 @@ class _AddTransactionModalState extends State<AddTransactionModal> {
           typeId: typeId,
           categoryId: categoryId,
           amount: num.parse(_formKey.currentState!.value['amount']),
+          date: firestore.Timestamp.fromDate(
+              _formKey.currentState!.value['date']),
           note: _formKey.currentState!.value['note'],
           createdAt: firestore.Timestamp.now(),
         ),
@@ -102,18 +105,6 @@ class _AddTransactionModalState extends State<AddTransactionModal> {
                     ),
                     decoration: const InputDecoration(
                       hintText: 'Enter transaction name!',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1.0,
-                            color: AppTheme.primaryColor,
-                            style: BorderStyle.solid),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 2.0,
-                            color: AppTheme.primaryColor,
-                            style: BorderStyle.solid),
-                      ),
                     ),
                   ),
                   const SizedBox(
@@ -135,18 +126,19 @@ class _AddTransactionModalState extends State<AddTransactionModal> {
                     ],
                     decoration: const InputDecoration(
                       hintText: 'Enter amount',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1.0,
-                            color: AppTheme.primaryColor,
-                            style: BorderStyle.solid),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 2.0,
-                            color: AppTheme.primaryColor,
-                            style: BorderStyle.solid),
-                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15.0,
+                  ),
+                  FormBuilderDateTimePicker(
+                    name: 'date',
+                    inputType: InputType.date,
+                    cursorColor: AppTheme.primaryColor,
+                    validator: FormBuilderValidators.required(),
+                    format: DateFormat('yyyy/MM/dd'),
+                    decoration: const InputDecoration(
+                      hintText: 'Select date',
                     ),
                   ),
                   const SizedBox(
@@ -158,18 +150,6 @@ class _AddTransactionModalState extends State<AddTransactionModal> {
                     validator: FormBuilderValidators.maxLength(100),
                     decoration: const InputDecoration(
                       hintText: 'Enter note',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 1.0,
-                            color: AppTheme.primaryColor,
-                            style: BorderStyle.solid),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 2.0,
-                            color: AppTheme.primaryColor,
-                            style: BorderStyle.solid),
-                      ),
                     ),
                   ),
                   const SizedBox(
