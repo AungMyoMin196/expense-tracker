@@ -4,7 +4,7 @@ on: [ workflow_dispatch ]
 
 jobs:
   distribute_to_firebase_app_distribution:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 20
     steps:
       - name: Set up repository
