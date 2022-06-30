@@ -16,13 +16,24 @@
 default_platform(:android)
 
 platform :android do
-  desc "Upload Android App to Firebase App Distribution"
-  lane :distribute_android_app do
+  desc "[ANDROID_DEV]Deploy to Firebase App Distribution"
+  lane :distribute_android_app_dev do
       firebase_app_distribution(
           app: ENV["FIREBASE_APP_ID_ANDROID"],
           groups: "beta",
           android_artifact_type: "APK",
-          android_artifact_path: "./build/app/outputs/flutter-apk/app-development-release.apk",
+          android_artifact_path: "../build/app/outputs/flutter-apk/app-development-release.apk",
+          firebase_cli_token: ENV["FIREBASE_APP_TOKEN"]
+      )
+  end
+
+  desc "[ANDROID_STG]Deploy to Firebase App Distribution"
+  lane :distribute_android_app_stg do
+      firebase_app_distribution(
+          app: ENV["FIREBASE_APP_ID_ANDROID"],
+          groups: "beta",
+          android_artifact_type: "APK",
+          android_artifact_path: "../build/app/outputs/flutter-apk/app-staging-release.apk",
           firebase_cli_token: ENV["FIREBASE_APP_TOKEN"]
       )
   end

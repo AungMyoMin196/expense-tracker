@@ -1,11 +1,13 @@
-name: android_beta
+name: "[ANDROID_STG] Deploy To Firebase App Distribution"
 
 on: [ workflow_dispatch ]
 
 jobs:
-  distribute_to_firebase_app_distribution:
+  deploy_to_firebase_app_distribution:
+    name:  Deploy To Firebase App Distribution
     runs-on: macos-latest
     timeout-minutes: 20
+    if: github.ref == 'refs/heads/develop'
     steps:
       - name: Set up repository
         uses: actions/checkout@v2
@@ -30,11 +32,11 @@ jobs:
 
       - name: Build APK
         working-directory: ${{ github.workspace }}
-        run: flutter build apk --target lib/main_development.dart --flavor development
+        run: flutter build apk --target lib/main_staging.dart --flavor staging
 
       - name: Distribute Android Beta App
         working-directory: ${{ github.workspace }}/android
-        run: bundle exec fastlane distribute_android_app
+        run: bundle exec fastlane distribute_android_app_stg
         env:
-          FIREBASE_APP_ID_ANDROID: ${{ secrets.FIREBASE_APP_ID_ANDROID }}
+          FIREBASE_APP_ID_ANDROID: ${{ secrets.FIREBASE_APP_ID_ANDROID_STG }}
           FIREBASE_APP_TOKEN: ${{ secrets.FIREBASE_APP_TOKEN }}
