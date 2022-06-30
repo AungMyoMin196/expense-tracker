@@ -1,42 +1,47 @@
-# name: "[ANDROID_PROD] Deploy To Google Play Store"
+name: "[ANDROID_PROD] Deploy To Google Play Store"
 
-# on: [ workflow_dispatch ]
+on: [ workflow_dispatch ]
 
-# jobs:
-#   deploy_to_firebase_app_distribution:
-#     name:  Deploy To Google Play Store
-#     runs-on: macos-latest
-#     timeout-minutes: 20
-#     if: github.ref == 'refs/heads/master'
-#     steps:
-#       - name: Set up repository
-#         uses: actions/checkout@v2
+jobs:
+  deploy_to_firebase_app_distribution:
+    name:  Deploy To Google Play Store
+    runs-on: macos-latest
+    timeout-minutes: 20
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Set up repository
+        uses: actions/checkout@v2
       
-#       - name: Set up java
-#         uses: actions/setup-java@v1
-#         with:
-#           java-version: "12.x"
+      - name: Set up java
+        uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
 
-#       - name: Set up flutter
-#         uses: subosito/flutter-action@v1
-#         with:
-#           flutter-version: '3.0.1'
+      - name: Set up flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.0.1'
 
-#       - name: Install Android Gems
-#         working-directory: ${{ github.workspace }}/android
-#         run: bundle install
+      - name: Install Android Gems
+        working-directory: ${{ github.workspace }}/android
+        run: bundle install
 
-#       - name: Flutter get
-#         working-directory: ${{ github.workspace }}
-#         run: flutter pub get
+      - name: Flutter get
+        working-directory: ${{ github.workspace }}
+        run: flutter pub get
+      
+      - name: Create key.properties
+        run: |
+          echo ${{ secrets.ANDROID_UPLOAD_KEYSTORE }} | base64 -d > android/android_upload_keystore.jks
+          echo 'storeFile=android_upload_keystore.jks' > android/key.properties
+          echo 'storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}' >> android/key.properties
+          echo 'keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}' >> android/key.properties
+          echo 'keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}' >> android/key.properties
 
-#       - name: Build APK
-#         working-directory: ${{ github.workspace }}
-#         run: flutter build apk --target lib/main_development.dart --flavor development
+      - name: Build bundle
+        working-directory: ${{ github.workspace }}
+        run: flutter build appbundle --build-number=$GITHUB_RUN_NUMBER --target lib/main_production.dart --flavor production
 
-#       - name: Distribute Android Beta App
-#         working-directory: ${{ github.workspace }}/android
-#         run: bundle exec fastlane distribute_android_app
-#         env:
-#           FIREBASE_APP_ID_ANDROID: ${{ secrets.FIREBASE_APP_ID_ANDROID }}
-#           FIREBASE_APP_TOKEN: ${{ secrets.FIREBASE_APP_TOKEN }}
+      - name: Distribute to Play Store
+        working-directory: ${{ github.workspace }}/android
+        run: bundle exec fastlane distribute_android_app_prod

@@ -29,11 +29,19 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: flutter pub get
 
+      - name: Create key.properties
+        run: |
+          echo ${{ secrets.ANDROID_UPLOAD_KEYSTORE }} | base64 -d > android/android_upload_keystore.jks
+          echo 'storeFile=android_upload_keystore.jks' > android/key.properties
+          echo 'storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}' >> android/key.properties
+          echo 'keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}' >> android/key.properties
+          echo 'keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}' >> android/key.properties
+
       - name: Build APK
         working-directory: ${{ github.workspace }}
         run: flutter build apk --build-number=$GITHUB_RUN_NUMBER --target lib/main_development.dart --flavor development
 
-      - name: Distribute Android Beta App
+      - name: Distribute to Firebase
         working-directory: ${{ github.workspace }}/android
         run: bundle exec fastlane distribute_android_app_dev
         env:

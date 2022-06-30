@@ -48,3 +48,4 @@ app.*.map.json
 
 # vscode
 .vscode/settings.json
+play_store_config.json
