@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expense_tracker/data/models/abstracts/to_firebase.dart';
+import 'package:expense_tracker/data/models/contracts/to_firebase.dart';
 
-abstract class FirestoreCrudAbstract<T extends ToFirebase, K> {
+abstract class FirestoreCrudContract<T extends ToFirebase, K> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   String getPath();

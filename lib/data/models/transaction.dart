@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:expense_tracker/data/models/abstracts/to_firebase.dart';
+import 'package:expense_tracker/data/models/contracts/to_firebase.dart';
 import 'package:expense_tracker/defines/enums/category_enum.dart';
 import 'package:expense_tracker/defines/enums/transaction_type_enum.dart';
 import 'package:intl/intl.dart';
