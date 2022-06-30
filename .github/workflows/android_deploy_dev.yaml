@@ -31,7 +31,7 @@ jobs:
 
       - name: Build APK
         working-directory: ${{ github.workspace }}
-        run: flutter build apk --target lib/main_development.dart --flavor development
+        run: flutter build apk --build-number=$GITHUB_RUN_NUMBER --target lib/main_development.dart --flavor development
 
       - name: Distribute Android Beta App
         working-directory: ${{ github.workspace }}/android
