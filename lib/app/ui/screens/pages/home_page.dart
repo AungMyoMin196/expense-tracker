@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               Container(
                 padding:
-                    const EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+                    const EdgeInsets.only(top: 40.0, left: 20.0, right: 20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                             onPressed: _selectDate,
                             icon: const Icon(
                               Icons.calendar_month_outlined,
-                              size: 18.0,
+                              size: 25.0,
                             ),
                           ),
                         ),
@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                             icon: const Icon(
                               Icons.exit_to_app_outlined,
                               color: AppTheme.primaryColor,
-                              size: 18.0,
+                              size: 25.0,
                             ),
                           ),
                         ),
