@@ -53,14 +53,14 @@ class _FlipCardViewState extends State<FlipCardView> {
               color: category.color,
               title: value.toStringAsFixed(1) + '%',
               titleStyle: const TextStyle(
-                fontSize: 11.0,
+                fontSize: 12.0,
               ),
               badgeWidget: CircleAvatar(
                 backgroundColor: Colors.white,
-                radius: 17,
+                radius: 18,
                 child: Icon(
                   category.icon,
-                  size: 17.0,
+                  size: 18.0,
                   color: category.color,
                 ),
               ),

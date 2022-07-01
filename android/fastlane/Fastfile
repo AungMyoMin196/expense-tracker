@@ -16,25 +16,32 @@
 default_platform(:android)
 
 platform :android do
-  desc "[ANDROID_DEV]Deploy to Firebase App Distribution"
-  lane :distribute_android_app_dev do
-      firebase_app_distribution(
-          app: ENV["FIREBASE_APP_ID_ANDROID"],
-          groups: "beta",
-          android_artifact_type: "APK",
-          android_artifact_path: "../build/app/outputs/flutter-apk/app-development-release.apk",
-          firebase_cli_token: ENV["FIREBASE_APP_TOKEN"]
-      )
-  end
+    desc "[ANDROID_DEV]Deploy to Firebase App Distribution"
+    lane :distribute_android_app_dev do
+        firebase_app_distribution(
+            app: ENV["FIREBASE_APP_ID_ANDROID"],
+            groups: "beta",
+            android_artifact_type: "APK",
+            android_artifact_path: "../build/app/outputs/flutter-apk/app-development-release.apk",
+            firebase_cli_token: ENV["FIREBASE_APP_TOKEN"]
+        )
+    end
 
-  desc "[ANDROID_STG]Deploy to Firebase App Distribution"
-  lane :distribute_android_app_stg do
-      firebase_app_distribution(
-          app: ENV["FIREBASE_APP_ID_ANDROID"],
-          groups: "beta",
-          android_artifact_type: "APK",
-          android_artifact_path: "../build/app/outputs/flutter-apk/app-staging-release.apk",
-          firebase_cli_token: ENV["FIREBASE_APP_TOKEN"]
-      )
-  end
+    desc "[ANDROID_STG]Deploy to Firebase App Distribution"
+    lane :distribute_android_app_stg do
+        firebase_app_distribution(
+            app: ENV["FIREBASE_APP_ID_ANDROID"],
+            groups: "beta",
+            android_artifact_type: "APK",
+            android_artifact_path: "../build/app/outputs/flutter-apk/app-staging-release.apk",
+            firebase_cli_token: ENV["FIREBASE_APP_TOKEN"]
+        )
+    end
+
+    desc "[ANDROID_PROD]Deploy to Google Play"
+    lane :distribute_android_app_prod do
+        upload_to_play_store(
+            aab_paths: "../build/app/outputs/bundle/productionRelease/app-production-release.aab"
+        )
+    end
 end
