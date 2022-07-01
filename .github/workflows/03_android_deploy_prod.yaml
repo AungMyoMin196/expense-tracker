@@ -3,7 +3,7 @@ name: "[ANDROID_PROD] Deploy To Google Play Store"
 on: [ workflow_dispatch ]
 
 jobs:
-  deploy_to_firebase_app_distribution:
+  deploy_to_google_play_store:
     name:  Deploy To Google Play Store
     runs-on: macos-latest
     timeout-minutes: 20
