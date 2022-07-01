@@ -29,6 +29,10 @@ jobs:
       - name: Flutter get
         working-directory: ${{ github.workspace }}
         run: flutter pub get
+
+      - name:  Create google service json
+        run: |
+          echo ${{ secrets.ANDROID_GOOGLE_SERVICE_PROD }} | base64 --decode > ./android/app/src/production/google-services.json
       
       - name: Create key.properties
         run: |
@@ -37,6 +41,10 @@ jobs:
           echo 'storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}' >> android/key.properties
           echo 'keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}' >> android/key.properties
           echo 'keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}' >> android/key.properties
+
+      - name: Create Google Play Config file
+        run : |
+          echo ${{ secrets.PLAY_STORE_CONFIG }} | base64 -d > android/play_store_config.json
 
       - name: Build bundle
         working-directory: ${{ github.workspace }}

@@ -49,3 +49,5 @@ app.*.map.json
 # vscode
 .vscode/settings.json
 play_store_config.json
+google-services.json
+google-services_.*.json
