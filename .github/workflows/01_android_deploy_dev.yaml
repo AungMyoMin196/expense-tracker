@@ -19,7 +19,11 @@ jobs:
       - name: Set up flutter
         uses: subosito/flutter-action@v1
         with:
-          flutter-version: '3.0.1'
+          flutter-version: '3.0.4'
+
+      - name: Flutter clean
+        working-directory: ${{ github.workspace }}
+        run: flutter clean
 
       - name: Install Android Gems
         working-directory: ${{ github.workspace }}/android
